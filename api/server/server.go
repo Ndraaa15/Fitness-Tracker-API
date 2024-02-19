@@ -34,7 +34,6 @@ func Run() int {
 	}
 
 	return srv.Start()
-
 }
 
 func newServer() (*Bootstrap, error) {
@@ -75,8 +74,7 @@ func (s *Bootstrap) RegisterRoutes(db *sqlx.DB) error {
 
 	{
 		authIdentities := []authhandler.HandlerIdetifier{
-			authhandler.HandlerRegister,
-			authhandler.HandlerLogin,
+			authhandler.HandlerAuth,
 		}
 
 		authHTTPHandler, err := authhandler.New(authService, authIdentities...)

@@ -24,14 +24,9 @@ type HandlerIdetifier struct {
 }
 
 var (
-	HandlerRegister = HandlerIdetifier{
-		Name: "Signup",
-		URL:  "/signup",
-	}
-
-	HandlerLogin = HandlerIdetifier{
-		Name: "Signin",
-		URL:  "/signin",
+	HandlerAuth = HandlerIdetifier{
+		Name: "Auth",
+		URL:  "/auth",
 	}
 )
 
@@ -65,12 +60,10 @@ func (h *Handler) createHandler(identifier string) (http.Handler, error) {
 	var httpHandler http.Handler
 
 	switch identifier {
-
-	case HandlerRegister.Name:
+	case HandlerAuth.Name:
 		httpHandler = &authHandler{
 			authService: h.authService,
 		}
-
 	default:
 		return nil, fmt.Errorf("handler not found")
 	}
@@ -80,6 +73,6 @@ func (h *Handler) createHandler(identifier string) (http.Handler, error) {
 
 func (h *Handler) Start(mx *mux.Router) {
 	for _, handler := range h.handlers {
-		mx.HandleFunc(handler.identifier.URL, handler.h)
+		mx.Handle(handler.identifier.URL, handler.h)
 	}
 }
